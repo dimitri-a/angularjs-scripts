@@ -1,0 +1,9 @@
+{
+  "name": "angularjs-scripts",
+  "version": "1.0.0",
+  "description": "Scripts used to abstract frontend projects tooling (webpack, babel, etc.)",
+  "main": "index.js",
+  "repository": "github:/dixeed/angularjs-scripts.git",
+  "author": "Nargonath <jonas.pauthier@gmail.com>",
+  "license": "MIT"
+}
