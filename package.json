@@ -5,5 +5,19 @@
   "main": "index.js",
   "repository": "github:/dixeed/angularjs-scripts.git",
   "author": "Nargonath <jonas.pauthier@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "{bin,scripts,test}/**/*.{js,css,json}": [
+      "prettier --single-quote --write --print-width 100 --trailing-comma es5",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.4",
+    "prettier": "^1.6.1"
+  }
 }
