@@ -12,10 +12,13 @@ const Promise = require('bluebird');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
 const webpackConfig = require('../config/webpack/webpack.config');
+const validateArgs = require('./utils/validateArgs');
+const unvalidatedArgs = require('yargs-parser')(process.argv.slice(2));
+const args = validateArgs('build', unvalidatedArgs);
 
 // inspired by: https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/scripts/build.js
 new Promise((resolve, reject) => {
-  const compiler = webpack(webpackConfig({ prod: true }));
+  const compiler = webpack(webpackConfig({ prod: true, analyze: !!args.analyze }));
 
   compiler.run((err, stats) => {
     if (err) {
