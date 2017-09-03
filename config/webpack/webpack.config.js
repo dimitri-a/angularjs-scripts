@@ -126,7 +126,7 @@ module.exports = (env = { dev: true }) => {
     //                       Plugins                           //
     /////////////////////////////////////////////////////////////
     plugins: removeEmpty([
-      ifProd(new CleanWebpackPlugin(['dist'], { root: __dirname, verbose: true })),
+      ifProd(new CleanWebpackPlugin(['dist'], { root: projectDirectory, verbose: true })),
 
       /**
        * used to define global variable which are configured at compile time

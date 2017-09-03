@@ -1,5 +1,7 @@
 'use strict';
 
+process.env.NODE_ENV = 'dev';
+
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk');
