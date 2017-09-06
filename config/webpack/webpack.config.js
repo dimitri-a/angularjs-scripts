@@ -69,6 +69,10 @@ module.exports = (env = { dev: true }) => {
       modules: ['node_modules', resolveAppPath('node_modules'), appPath],
     },
     resolveLoader: {
+      /**
+       * Perhaps we don't need this if we use require.resolve when setting the loader
+       * in the rule object.
+       */
       modules: [resolve(__dirname, '../../node_modules'), resolveAppPath('node_modules')],
     },
     //////////////////////////////////////////////////////
@@ -83,48 +87,68 @@ module.exports = (env = { dev: true }) => {
           use: { loader: 'eslint-loader', options: { baseConfig: eslintConfig } },
         },
 
-        { test: /\.html$/, include: [appPath], use: 'raw-loader' },
         {
-          test: /\.(scss|sass)$/,
-          include: [appPath],
-          use: ifProd(ExtractTextPlugin.extract({ fallback: 'style-loader', use: SASSLoaders }), [
-            'style-loader',
-            ...SASSLoaders,
-          ]),
-        },
-        {
-          test: /\.css$/,
-          use: ifProd(
-            ExtractTextPlugin.extract({
-              fallback: 'style-loader',
-              use: CSSLoaders(),
-            }),
-            ['style-loader', ...CSSLoaders()]
-          ),
-        },
-        {
-          test: /\.js$/,
-          include: [appPath],
-          use: ['ng-annotate-loader', { loader: 'babel-loader', options: babelConfig }],
-        },
-        { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, use: 'file-loader' },
-        {
-          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              mimetype: 'application/font-woff',
+          /**
+           * Only one loader below will be matched and if none are, it will use the last
+           * one because it has no test property
+           */
+          oneOf: [
+            { test: /\.html$/, include: [appPath], use: 'raw-loader' },
+
+            {
+              test: /\.(scss|sass)$/,
+              include: [appPath],
+              use: ifProd(
+                ExtractTextPlugin.extract({ fallback: 'style-loader', use: SASSLoaders }),
+                ['style-loader', ...SASSLoaders]
+              ),
             },
-          },
-        },
-        {
-          test: /\.(jpg|png)$/,
-          include: [appPath],
-          use: {
-            loader: 'file-loader',
-            options: { name: './images/[hash].[ext]' },
-          },
+
+            {
+              test: /\.css$/,
+              use: ifProd(
+                ExtractTextPlugin.extract({
+                  fallback: 'style-loader',
+                  use: CSSLoaders(),
+                }),
+                ['style-loader', ...CSSLoaders()]
+              ),
+            },
+
+            {
+              test: /\.js$/,
+              include: [appPath],
+              use: ['ng-annotate-loader', { loader: 'babel-loader', options: babelConfig }],
+            },
+
+            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, use: 'file-loader' },
+
+            {
+              test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+              use: {
+                loader: 'url-loader',
+                options: {
+                  limit: 10000,
+                  mimetype: 'application/font-woff',
+                },
+              },
+            },
+
+            /**
+             * This loader acts as a fail through, if none of the aboves are matched
+             * then this one will be used.
+             */
+            {
+              exclude: [/\.js$/, /\.html$/, /\.json$/],
+              loader: 'file-loader',
+              options: {
+                name: 'media/[name].[hash:8].[ext]',
+              },
+            },
+            /**
+             * DON'T ADD LOADERS BELOW. ALWAYS PUT THEM BEFORE THE ONE ABOVE.
+             */
+          ],
         },
       ],
     },
