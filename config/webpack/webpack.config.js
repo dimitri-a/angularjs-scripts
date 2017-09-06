@@ -12,10 +12,12 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 
-const { resolvePath, projectDirectory } = require('../paths');
+const { resolveAppPath, projectDirectory } = require('../paths');
+const babelConfig = require('../babel/babel.config');
+const eslintConfig = require('../eslint/eslint.config');
 
-const appPath = resolvePath('app');
-const buildPath = resolvePath('dist');
+const appPath = resolveAppPath('app');
+const buildPath = resolveAppPath('dist');
 
 module.exports = (env = { dev: true }) => {
   const { ifProd, ifDev, ifAnalyze } = getIfUtils(env, ['prod', 'dev', 'analyze']);
@@ -42,13 +44,12 @@ module.exports = (env = { dev: true }) => {
 
   return removeEmpty({
     cache: ifProd(),
-    context: appPath,
 
     ////////////////////////////////////////////////
     //                  Entry points              //
     ////////////////////////////////////////////////
     entry: {
-      app: './app.js',
+      app: './app/app.js',
     },
     //////////////////////////////////////////////////
     //                 Output                       //
@@ -65,14 +66,22 @@ module.exports = (env = { dev: true }) => {
     //                 Resolve                          //
     //////////////////////////////////////////////////////
     resolve: {
-      modules: [appPath, 'node_modules'],
+      modules: ['node_modules', resolveAppPath('node_modules'), appPath],
+    },
+    resolveLoader: {
+      modules: [resolve(__dirname, '../../node_modules'), resolveAppPath('node_modules')],
     },
     //////////////////////////////////////////////////////
     //                 Loaders                          //
     //////////////////////////////////////////////////////
     module: {
       rules: [
-        { test: /\.js$/, enforce: 'pre', include: [appPath], use: 'eslint-loader' },
+        {
+          test: /\.js$/,
+          enforce: 'pre',
+          include: [appPath],
+          use: { loader: 'eslint-loader', options: { baseConfig: eslintConfig } },
+        },
 
         { test: /\.html$/, include: [appPath], use: 'raw-loader' },
         {
@@ -96,10 +105,7 @@ module.exports = (env = { dev: true }) => {
         {
           test: /\.js$/,
           include: [appPath],
-          use: [
-            'ng-annotate-loader',
-            { loader: 'babel-loader', options: { cacheDirectory: true } },
-          ],
+          use: ['ng-annotate-loader', { loader: 'babel-loader', options: babelConfig }],
         },
         { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, use: 'file-loader' },
         {
@@ -145,7 +151,7 @@ module.exports = (env = { dev: true }) => {
        */
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        template: 'index.html',
+        template: 'app/index.html',
         hash: true,
         inject: 'body',
       }),

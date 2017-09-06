@@ -8,11 +8,11 @@ const chalk = require('chalk');
 const opn = require('opn');
 
 const webpackConfig = require('../config/webpack/webpack.config');
-const { resolvePath } = require('../config/paths');
+const { resolveAppPath } = require('../config/paths');
 
 const compiler = webpack(webpackConfig());
 const devServer = new WebpackDevServer(compiler, {
-  contentBase: resolvePath('dist'),
+  contentBase: resolveAppPath('dist'),
   hot: true,
   stats: 'verbose',
 });

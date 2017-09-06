@@ -8,9 +8,9 @@ const fs = require('fs');
  * if called in a NPM script
  */
 const projectDirectory = fs.realpathSync(process.cwd());
-const resolvePath = (...paths) => path.resolve(projectDirectory, ...paths);
+const resolveAppPath = (...paths) => path.resolve(projectDirectory, ...paths);
 
 module.exports = {
   projectDirectory,
-  resolvePath,
+  resolveAppPath,
 };
