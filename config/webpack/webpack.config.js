@@ -22,16 +22,14 @@ const buildPath = resolveAppPath('dist');
 module.exports = (env = { dev: true }) => {
   const { ifProd, ifDev, ifAnalyze } = getIfUtils(env, ['prod', 'dev', 'analyze']);
 
-  // if (ifDev() && !existsSync(resolve(buildPath, 'dll'))) {
-  //   console.log(chalk.red('Generate DLL (npm run build:dll)'));
-  //   process.exit(1);
-  // }
-
   const CSSLoaders = (nbLoaders = 1) => [
-    { loader: 'css-loader', options: { sourceMap: true, importLoaders: nbLoaders } },
-    'resolve-url-loader',
     {
-      loader: 'postcss-loader',
+      loader: require.resolve('css-loader'),
+      options: { sourceMap: true, importLoaders: nbLoaders },
+    },
+    require.resolve('resolve-url-loader'),
+    {
+      loader: require.resolve('postcss-loader'),
       options: {
         ident: 'postcss',
         plugins: () => [autoprefixer({ flexbox: 'no-2009' })],
@@ -40,7 +38,10 @@ module.exports = (env = { dev: true }) => {
     },
   ];
 
-  const SASSLoaders = [...CSSLoaders(2), { loader: 'sass-loader', options: { sourceMap: true } }];
+  const SASSLoaders = [
+    ...CSSLoaders(2),
+    { loader: require.resolve('sass-loader'), options: { sourceMap: true } },
+  ];
 
   return removeEmpty({
     cache: ifProd(),
@@ -68,13 +69,6 @@ module.exports = (env = { dev: true }) => {
     resolve: {
       modules: ['node_modules', resolveAppPath('node_modules'), appPath],
     },
-    resolveLoader: {
-      /**
-       * Perhaps we don't need this if we use require.resolve when setting the loader
-       * in the rule object.
-       */
-      modules: [resolve(__dirname, '../../node_modules'), resolveAppPath('node_modules')],
-    },
     //////////////////////////////////////////////////////
     //                 Loaders                          //
     //////////////////////////////////////////////////////
@@ -84,7 +78,7 @@ module.exports = (env = { dev: true }) => {
           test: /\.js$/,
           enforce: 'pre',
           include: [appPath],
-          use: { loader: 'eslint-loader', options: { baseConfig: eslintConfig } },
+          use: { loader: require.resolve('eslint-loader'), options: { baseConfig: eslintConfig } },
         },
 
         {
@@ -93,14 +87,17 @@ module.exports = (env = { dev: true }) => {
            * one because it has no test property
            */
           oneOf: [
-            { test: /\.html$/, include: [appPath], use: 'raw-loader' },
+            { test: /\.html$/, include: [appPath], use: require.resolve('raw-loader') },
 
             {
               test: /\.(scss|sass)$/,
               include: [appPath],
               use: ifProd(
-                ExtractTextPlugin.extract({ fallback: 'style-loader', use: SASSLoaders }),
-                ['style-loader', ...SASSLoaders]
+                ExtractTextPlugin.extract({
+                  fallback: require.resolve('style-loader'),
+                  use: SASSLoaders,
+                }),
+                [require.resolve('style-loader'), ...SASSLoaders]
               ),
             },
 
@@ -108,25 +105,31 @@ module.exports = (env = { dev: true }) => {
               test: /\.css$/,
               use: ifProd(
                 ExtractTextPlugin.extract({
-                  fallback: 'style-loader',
+                  fallback: require.resolve('style-loader'),
                   use: CSSLoaders(),
                 }),
-                ['style-loader', ...CSSLoaders()]
+                [require.resolve('style-loader'), ...CSSLoaders()]
               ),
             },
 
             {
               test: /\.js$/,
               include: [appPath],
-              use: ['ng-annotate-loader', { loader: 'babel-loader', options: babelConfig }],
+              use: [
+                require.resolve('ng-annotate-loader'),
+                { loader: require.resolve('babel-loader'), options: babelConfig },
+              ],
             },
 
-            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, use: 'file-loader' },
+            {
+              test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+              use: require.resolve('file-loader'),
+            },
 
             {
               test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
               use: {
-                loader: 'url-loader',
+                loader: require.resolve('url-loader'),
                 options: {
                   limit: 10000,
                   mimetype: 'application/font-woff',
@@ -140,7 +143,7 @@ module.exports = (env = { dev: true }) => {
              */
             {
               exclude: [/\.js$/, /\.html$/, /\.json$/],
-              loader: 'file-loader',
+              loader: require.resolve('file-loader'),
               options: {
                 name: 'media/[name].[hash:8].[ext]',
               },
