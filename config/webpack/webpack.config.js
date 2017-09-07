@@ -15,6 +15,7 @@ const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const { resolveAppPath, projectDirectory } = require('../paths');
 const babelConfig = require('../babel/babel.config');
 const eslintConfig = require('../eslint/eslint.config');
+const { browsersList } = require('../globals');
 
 const appPath = resolveAppPath('app');
 const buildPath = resolveAppPath('dist');
@@ -32,7 +33,7 @@ module.exports = (env = { dev: true }) => {
       loader: require.resolve('postcss-loader'),
       options: {
         ident: 'postcss',
-        plugins: () => [autoprefixer({ flexbox: 'no-2009' })],
+        plugins: () => [autoprefixer({ flexbox: 'no-2009', browsers: browsersList })],
         sourceMap: true,
       },
     },

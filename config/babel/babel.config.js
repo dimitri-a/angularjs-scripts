@@ -1,7 +1,9 @@
 'use strict';
 
+const { browsersList } = require('../globals');
+
 const babelConfig = {
-  presets: ['env'],
+  presets: [['env', { targets: { browsers: browsersList } }]],
   plugins: ['transform-object-rest-spread'],
 };
 
