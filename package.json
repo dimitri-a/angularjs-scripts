@@ -7,6 +7,7 @@
   "repository": "github:/dixeed/angularjs-scripts.git",
   "author": "Nargonath <jonas.pauthier@gmail.com>",
   "license": "MIT",
+  "engines": { "node": ">=4.0.0" },
   "scripts": {
     "precommit": "lint-staged"
   },
