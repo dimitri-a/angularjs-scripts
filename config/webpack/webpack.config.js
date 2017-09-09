@@ -51,7 +51,7 @@ module.exports = (env = { dev: true }) => {
     //                  Entry points              //
     ////////////////////////////////////////////////
     entry: {
-      app: './app/app.js',
+      app: ['babel-polyfill', './app/app.js'],
     },
     //////////////////////////////////////////////////
     //                 Output                       //
