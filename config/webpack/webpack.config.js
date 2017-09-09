@@ -16,6 +16,7 @@ const { resolveAppPath, projectDirectory } = require('../paths');
 const babelConfig = require('../babel/babel.config');
 const eslintConfig = require('../eslint/eslint.config');
 const { browsersList } = require('../globals');
+const polyfills = require('../polyfills');
 
 const appPath = resolveAppPath('app');
 const buildPath = resolveAppPath('dist');
@@ -51,7 +52,7 @@ module.exports = (env = { dev: true }) => {
     //                  Entry points              //
     ////////////////////////////////////////////////
     entry: {
-      app: ['babel-polyfill', './app/app.js'],
+      app: [...polyfills, './app/app.js'],
     },
     //////////////////////////////////////////////////
     //                 Output                       //
