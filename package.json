@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "add-asset-html-webpack-plugin": "^2.1.1",
+    "autodll-webpack-plugin": "^0.2.1",
     "autoprefixer": "^7.1.3",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

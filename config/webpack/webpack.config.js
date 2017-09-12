@@ -5,6 +5,7 @@ const { existsSync } = require('fs');
 const chalk = require('chalk');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
+const AutodllWebpackPlugin = require('autodll-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -17,6 +18,7 @@ const babelConfig = require('../babel/babel.config');
 const eslintConfig = require('../eslint/eslint.config');
 const { browsersList } = require('../globals');
 const polyfills = require('../polyfills');
+const pkgJson = require(resolveAppPath('package.json'));
 
 const appPath = resolveAppPath('app');
 const buildPath = resolveAppPath('dist');
@@ -194,19 +196,19 @@ module.exports = (env = { dev: true }) => {
       //////////////////////////////////////////////////////////
       //                     DLL                              //
       //////////////////////////////////////////////////////////
-      // ifDev(
-      //   new webpack.DllReferencePlugin({
-      //     context: '.',
-      //     manifest: resolve(buildPath, 'dll', 'manifest.json'),
-      //   })
-      // ),
-
-      // ifDev(
-      //   new AddAssetHtmlPlugin({
-      //     filepath: resolve(buildPath, 'dll', 'vendors.js'),
-      //     includeSourcemap: false,
-      //   })
-      // ),
+      ifDev(
+        new AutodllWebpackPlugin({
+          inject: true,
+          debug: true,
+          filename: '[name]_[hash].js',
+          path: './dll',
+          entry: {
+            vendorDll: Object.keys(pkgJson.dependencies).filter(
+              dep => !pkgJson.dllIgnore.includes(dep)
+            ),
+          },
+        })
+      ),
 
       //////////////////////////////////////////////////////////
       //                     Chunks                           //

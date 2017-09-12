@@ -29,3 +29,12 @@ This project is inspired by several other projects:
 * Kcd-scripts: https://github.com/kentcdodds/kcd-scripts
 
 I'd like to thank the owners/contributors of these great projects for their work. It definitely helped implementing what we saught after.
+
+### Webpack DLL benchmarks
+build without DLL: 53156ms
+first rebuild with devserver: 25595ms
+second rebuild: 24511ms
+
+first build with DLL creation: 29373ms
+second build without dll creation: 23126ms
+first rebuild with dll: 16551ms
