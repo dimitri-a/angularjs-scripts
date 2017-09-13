@@ -31,7 +31,7 @@ This project is inspired by several other projects:
 I'd like to thank the owners/contributors of these great projects for their work. It definitely helped implementing what we saught after.
 
 ## Webpack DLL benchmarks
-| With DLL | Build | 1st rebuiled | 2nd rebuiled |
-| -------- | ----- | ------------ | ------------ |
+| With DLL | Build | 1st dev reload | 2nd dev reload |
+| -------- | ----- | -------------- | -------------- |
 | No | 53156ms | 25595ms | 24511ms |
 | Yes | 29373ms | 23126ms | 16551ms |
