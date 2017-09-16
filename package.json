@@ -11,7 +11,7 @@
   "author": "Nargonath <jonas.pauthier@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   },
   "scripts": {
     "commit": "git-cz",
