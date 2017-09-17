@@ -1,6 +1,6 @@
 {
   "name": "@dixeed/angularjs-scripts",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "Scripts used to abstract frontend projects tooling (webpack, babel, etc.)",
   "main": "bin/angularjs-scripts.js",
   "bin": "bin/angularjs-scripts.js",
