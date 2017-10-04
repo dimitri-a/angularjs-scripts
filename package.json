@@ -30,7 +30,7 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "files": ["bin", "scripts", "config"],
+  "files": ["bin", "scripts", "config", "eslint.js"],
   "devDependencies": {
     "@commitlint/cli": "3.2.0",
     "@commitlint/config-angular": "3.1.1",
@@ -42,6 +42,7 @@
     "semantic-release": "7.0.2"
   },
   "dependencies": {
+    "@dixeed/eslint-config": "1.0.0",
     "add-asset-html-webpack-plugin": "2.1.1",
     "autodll-webpack-plugin": "0.2.1",
     "autoprefixer": "7.1.4",
@@ -57,6 +58,7 @@
     "css-loader": "0.28.7",
     "eslint": "4.6.1",
     "eslint-config-angular": "0.5.0",
+    "eslint-config-prettier": "2.6.0",
     "eslint-loader": "1.9.0",
     "eslint-plugin-angular": "3.1.1",
     "extract-text-webpack-plugin": "2.1.2",
