@@ -204,7 +204,7 @@ module.exports = (env = { dev: true }) => {
           path: './dll',
           entry: {
             vendorDll: Object.keys(pkgJson.dependencies).filter(
-              dep => !pkgJson.dllIgnore.includes(dep)
+              dep => typeof pkgJson.dllIgnore === 'undefined' || !pkgJson.dllIgnore.includes(dep)
             ),
           },
         })
