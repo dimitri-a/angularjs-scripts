@@ -20,7 +20,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "lint-staged": {
-    "{bin,scripts,test}/**/*.{js,css,json}": [
+    "{bin,config,scripts,test}/**/*.{js,css,json}": [
       "prettier --single-quote --write --print-width 100 --trailing-comma es5",
       "git add"
     ]
