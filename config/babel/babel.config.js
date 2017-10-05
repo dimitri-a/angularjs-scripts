@@ -2,11 +2,7 @@
 
 const { browsersList } = require('../globals');
 
-const babelConfig = {
-  presets: [['env', { targets: { browsers: browsersList } }]],
-  plugins: ['transform-object-rest-spread'],
+module.exports = {
+  presets: [[require.resolve('babel-preset-env'), { targets: { browsers: browsersList } }]],
+  plugins: [require.resolve('babel-plugin-transform-object-rest-spread')],
 };
-
-const babelLoaderConfig = { cacheDirectory: true };
-
-module.exports = Object.assign(babelLoaderConfig, babelConfig);

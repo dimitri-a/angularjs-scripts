@@ -121,7 +121,10 @@ module.exports = (env = { dev: true }) => {
               include: [appPath],
               use: [
                 require.resolve('ng-annotate-loader'),
-                { loader: require.resolve('babel-loader'), options: babelConfig },
+                {
+                  loader: require.resolve('babel-loader'),
+                  options: Object.assign({ cacheDirectory: true }, babelConfig),
+                },
               ],
             },
 
