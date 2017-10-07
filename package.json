@@ -48,7 +48,7 @@
     "semantic-release": "8.0.3"
   },
   "dependencies": {
-    "@dixeed/eslint-config": "1.1.0",
+    "@dixeed/eslint-config": "1.2.0",
     "add-asset-html-webpack-plugin": "2.1.2",
     "autodll-webpack-plugin": "0.2.1",
     "autoprefixer": "7.1.5",

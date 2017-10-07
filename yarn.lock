@@ -36,9 +36,9 @@
     resolve-from "^3.0.0"
     semver "^5.3.0"
 
-"@dixeed/eslint-config@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@dixeed/eslint-config/-/eslint-config-1.1.0.tgz#173cf2af39d1d776ee9f4cd0821af71f16fe107b"
+"@dixeed/eslint-config@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@dixeed/eslint-config/-/eslint-config-1.2.0.tgz#b45f8e38745c0d23b519d01a2fe75fa24dbc1ad8"
   dependencies:
     eslint-config-angular "0.5.0"
     eslint-config-prettier "2.6.0"
